@@ -1,18 +1,22 @@
 const http = require('http');
-const { catalogController } = require('./controller/catalogController');
-const { homeController, aboutController } = require('./controller/homeController');
+const fs = require('fs');
 
-const router = require('./router');
+const { get, post, match } = require('./src/router'); 
+const { home } = require('./src/contorllers/home');
 
-const server = http.createServer(router.main);
+get('/', home);
+get('/catalog', catalog);
+get('/create', creatGet);
+post('./create', createPost);
+get('./edit', editGet);
+post('./edit', editPost);
 
-router.get('/', homeController);
-router.get('/about', aboutController);
-router.get('/catalog', catalogController);
-
-router.post('/create', createController);
-
-server.listen(3000);
-
-
-
+http.createServer((req, res) => {
+    if (req.url == '/favicon.ico') {
+        fs.createReadStream('./static/favicon.ico').pipe(res);
+    } else if(req.url.startsWith('/public/')) {
+        fs.createReadStream(`./static${req.url.slice(8)}`).pipe(res);
+    } else {
+        match(req, res);
+    }
+}).listen(3000);

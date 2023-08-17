@@ -1,0 +1,10 @@
+{
+    "Two Product": {
+        "name": "Widget",
+        "price": 12
+    }, 
+    "One Product": {
+        "name": "Black",
+        "price": 58
+  }
+}
